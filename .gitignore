@@ -1,6 +1,6 @@
 # Commands File
 commands.sh
-template.sh
+project_template.sh
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
