@@ -12,6 +12,5 @@ touch app.py
 touch research/trials.ipynb
 touch requirements.txt
 README.md
--e .
 
 echo "directory & files created successfully"

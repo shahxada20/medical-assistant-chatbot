@@ -1,9 +1,6 @@
-# Virtual Environment
-medibot/
-.venv/
-
-# Environment Variables
-.env
+# Commands File
+commands.sh
+template.sh
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
