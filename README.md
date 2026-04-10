@@ -22,9 +22,7 @@ Its design showcases an end-to-end AI Engineering pipeline: **from raw PDF inges
 | **Vector Database** | Pinecone | Serverless, 384 dimensions, cosine similarity | chosen for its ease of scaling without managing local infrastructure |
 | **Orchestration** | LangChain | LCEL | using LCEL (LangChain Expression Language) for modular, readable chains |
 | **Backend Framework** | Flask 3.1 | REST API | A lightweight framework for RESTful API server & template rendering |
-| **Package Management** | uv | - | a much faster alternative to pip for faster dependency resolution and cleaner virtual environment |
 | **Containerization** | Docker | Planned for production deployment | - |
-| **Styling** | Custom CSS | Dark theme, chat bubble styling |
 
 # How it Works: 📖
 
@@ -49,9 +47,9 @@ If you're running this on a machine with limited storage, I recommend using ``uv
 - uv
 #### Setup Keys
 Create a .env file in the project root and add:
-- Pinecone API Key ([signup](https://www.pinecone.io/))
-- Groq API Key ([signup](https://console.groq.com/))
-- Hugging-Face Embedding Model API Key
+- [Pinecone](https://www.pinecone.io/) API Key
+- [Groq](https://groq.com/) API KEY
+- [HuggingFace](https://huggingface.co/) API Key
 
 
 # Quick Start: ⚡
@@ -84,152 +82,52 @@ python app.py
 Navigate to http://localhost:5000 to start chatting.
 
 
-
-
 ## System Architecture
 ```
 ┌──────────────────────────────────────────────────────────────────────┐
 │                     PRESENTATION LAYER                               │
-│       Chat UI (templates/chat.html + static/style.css)               │
 └──────────────────────────────────────────────────────────────────────┘
                                     │
                                     ▼
 ┌──────────────────────────────────────────────────────────────────────┐
 │                     APPLICATION LAYER                                │
-│                 Flask Backend (app.py)                               │
-│       Routes: "/" (render UI) | "/get" (POST - query handler)        │
 └──────────────────────────────────────────────────────────────────────┘
                                     │
                                     ▼
 ┌──────────────────────────────────────────────────────────────────────┐
 │                        RAG PIPELINE LAYER                            │
-│                           src/helper.py                              │
 │  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐       │
 │  │  Document Load  │  │  Text Splitter  │  │  Embedding Model│       │
 │  │   (PyPDF)       │  │ (RecursiveChar) │  │ (MiniLM-L6-v2)  │       │
 │  └─────────────────┘  └─────────────────┘  └─────────────────┘       │
 │                                                                      │
-│  ┌─────────────────┐  ┌─────────────────┐                            │
-│  │  RAG Chain      │  │  System Prompt  │                            │
-│  │  (LCEL)         │  │  (Clinical)     │                            │
-│  └─────────────────┘  └─────────────────┘                            │
+│  ┌─────────────────┐  ┌──────────────────┐                           │
+│  │  RAG Chain      │  │  System Prompt   │                           │
+│  │  (LCEL)         │  │ (Clinical Query) │                           │
+│  └─────────────────┘  └──────────────────┘                           │
 └──────────────────────────────────────────────────────────────────────┘
                                     │
                                     ▼
 ┌──────────────────────────────────────────────────────────────────────┐
 │                        STORAGE LAYER                                 │
 │                    Pinecone Vector Database                          │
-│              Index: medical-assistant | Dim: 384 | Metric: cosine    │
 └──────────────────────────────────────────────────────────────────────┘
                                     │
                                     ▼
 ┌──────────────────────────────────────────────────────────────────────┐
 │                        GENERATION LAYER                              │
 │                    Groq Llama 4 (via API)                            │
-│              Temperature: 0 | System Prompt: Clinical Protocol       │
 └──────────────────────────────────────────────────────────────────────┘
 ```
 
-# Future Improvements ⚙:
+# Future Improvements: ⚙
 
-- **AWS Deployment**: Moving the Flask app to an EC2 instance with an S3 bucket for document storage.
+- **AWS Deployment**: Moving the Flask app to an EC2 instance via docker image with an S3 bucket for document storage.
   
 - **Frontend**: I’m working on a frontend redesign that supports real-time token streaming. This will eliminate the wait time for the user, providing a much smoother, modern chat experience.
 
 
-
-
-## API Reference
-
-### Endpoints
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| `GET` | `/` | Render chat interface (templates/chat.html) |
-| `POST` | `/get` | Submit clinical query and receive response |
-
-### Request/Response Schema
-
-#### POST /get
-
-**Request (Form Data):**
-```
-msg: What are the symptoms of vitamin D deficiency?
-```
-
-**Response (JSON - raw string):**
-```json
-"Vitamin D deficiency may cause the following symptoms:\n- Bone pain and tenderness\n- Muscle weakness\n- Increased fracture risk..."
-```
-
-### Error Responses
-
-| Status Code | Response | Description |
-|-------------|----------|-------------|
-| 400 | `{"error": "Empty message"}` | No message provided in request |
-| 503 | `{"error": "Service unavailable"}` | RAG chain not initialized |
-| 500 | `{"error": "Failed to generate response"}` | Internal error during generation |
-
----
-
-## Frontend
-
-### Chat Interface
-
-The frontend is a single-page chat application built with:
-
-- **Bootstrap 4.1**: Responsive layout and components
-- **jQuery 3.3**: DOM manipulation and AJAX requests
-- **Custom CSS**: Dark gradient theme with chat bubble styling
-
-### File Structure
-
-```
-templates/
-  └── chat.html        # Main chat interface
-static/
-  └── style.css        # Custom styling
-```
-
-### Features
-
-- Real-time message display with timestamps
-- Distinct styling for user vs. bot messages
-- Responsive design for mobile/desktop
-- Auto-scroll to latest message
-
----
-
-## Deployment
-
-> **Note**: Production deployment configuration is under development. This section will be updated with AWS infrastructure details.
-
-### Planned Infrastructure
-
-- **Compute**: AWS ECS Fargate / Lambda
-- **Load Balancing**: Application Load Balancer (ALB)
-- **Secrets Management**: AWS Secrets Manager
-- **Monitoring**: CloudWatch Logs + X-Ray tracing
-
-### Docker (Planned)
-
-```dockerfile
-# Multi-stage build for minimal production image
-# TODO: Implement Dockerfile
-```
-
-### Environment Variables (Production)
-
-| Variable | Source |
-|----------|--------|
-| `PINECONE_API_KEY` | AWS Secrets Manager |
-| `GROQ_API_KEY` | AWS Secrets Manager |
-| `FLASK_ENV` | Production |
-| `LOG_LEVEL` | INFO/WARNING |
-
----
-
-## Future Roadmap
+### Planned Infrastructure KPI
 
 ### Q2 2026
 
@@ -256,7 +154,7 @@ static/
 
 ---
 
-## Project Structure
+# Project Structure 📁
 
 ```
 medical-assistant-chatbot/
@@ -289,38 +187,14 @@ medical-assistant-chatbot/
     └── trials.ipynb
 ```
 
----
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit changes (`git commit -m 'Add amazing feature'`)
-4. Push to branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-### Code Standards
-
-- **Style**: PEP 8 compliant
-- **Naming**: `snake_case` (functions/variables), `PascalCase` (classes)
-- **Error Handling**: Try-except blocks for all external API calls
-- **Security**: No hardcoded credentials; use `os.getenv()` exclusively
-
----
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
-
-## Acknowledgments
-
-- [LangChain](https://python.langchain.com/) for orchestration framework
-- [Groq](https://groq.com/) for low-latency LLM inference
-- [Pinecone](https://www.pinecone.io/) for vector database infrastructure
-- [HuggingFace](https://huggingface.co/) for embedding models
-
----
-
 **MediAssist** - Clinical AI Infrastructure for Evidence-Based Medical Information Retrieval
+
+
+![LangChain](https://img.shields.io/badge/LangChain-1C3C3C?style=for-the-badge&logo=langchain&logoColor=white)
+![HuggingFace](https://img.shields.io/badge/HuggingFace-FFD21E?style=for-the-badge&logo=huggingface&logoColor=black)
+![Pinecone](https://img.shields.io/badge/Pinecone-272727?style=for-the-badge&logo=pinecone&logoColor=white)
+![Groq](https://img.shields.io/badge/Groq-f55036?style=for-the-badge&logo=groq&logoColor=white)
+![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
+![Flask](https://img.shields.io/badge/flask-%23000.svg?style=for-the-badge&logo=flask&logoColor=white)
+![AWS](https://img.shields.io/badge/AWS-%23FF9900.svg?style=for-the-badge&logo=amazon-aws&logoColor=white)
+![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
