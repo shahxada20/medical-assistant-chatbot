@@ -130,9 +130,11 @@ Navigate to http://localhost:5000 to start chatting.
 └──────────────────────────────────────────────────────────────────────┘
 ```
 
-# Future Improvements
-[Deployment] **AWS Deployment**: Moving the Flask app to an EC2 instance with an S3 bucket for document storage.
-[UX] **Frontend**: I’m working on a frontend redesign that supports real-time token streaming. This will eliminate the wait time for the user, providing a much smoother, modern chat experience.
+# Future Improvements ⚙:
+
+- **AWS Deployment**: Moving the Flask app to an EC2 instance with an S3 bucket for document storage.
+  
+- **Frontend**: I’m working on a frontend redesign that supports real-time token streaming. This will eliminate the wait time for the user, providing a much smoother, modern chat experience.
 
 
 
