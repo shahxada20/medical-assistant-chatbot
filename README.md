@@ -4,6 +4,15 @@
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Status](https://img.shields.io/badge/status-active-success.svg)]()
 
+![LangChain](https://img.shields.io/badge/LangChain-1C3C3C?style=for-the-badge&logo=langchain&logoColor=white)
+![HuggingFace](https://img.shields.io/badge/HuggingFace-FFD21E?style=for-the-badge&logo=huggingface&logoColor=black)
+![Pinecone](https://img.shields.io/badge/Pinecone-272727?style=for-the-badge&logo=pinecone&logoColor=white)
+![Groq](https://img.shields.io/badge/Groq-f55036?style=for-the-badge&logo=groq&logoColor=white)
+![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
+![Flask](https://img.shields.io/badge/flask-%23000.svg?style=for-the-badge&logo=flask&logoColor=white)
+![AWS](https://img.shields.io/badge/AWS-%23FF9900.svg?style=for-the-badge&logo=amazon-aws&logoColor=white)
+![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
+
 # Project Overview:
 This project is an AI chatbot designed to answer clinical queries. It features a RAG system with a Flask-based web interface to interact with the Retrieval pipeline, which pulls context from a vector database.
 
@@ -82,80 +91,35 @@ python app.py
 Navigate to http://localhost:5000 to start chatting.
 
 
-## System Architecture
-```
-┌──────────────────────────────────────────────────────────────────────┐
-│                     PRESENTATION LAYER                               │
-└──────────────────────────────────────────────────────────────────────┘
-                                    │
-                                    ▼
-┌──────────────────────────────────────────────────────────────────────┐
-│                     APPLICATION LAYER                                │
-└──────────────────────────────────────────────────────────────────────┘
-                                    │
-                                    ▼
-┌──────────────────────────────────────────────────────────────────────┐
-│                        RAG PIPELINE LAYER                            │
-│  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐       │
-│  │  Document Load  │  │  Text Splitter  │  │  Embedding Model│       │
-│  │   (PyPDF)       │  │ (RecursiveChar) │  │ (MiniLM-L6-v2)  │       │
-│  └─────────────────┘  └─────────────────┘  └─────────────────┘       │
-│                                                                      │
-│  ┌─────────────────┐  ┌──────────────────┐                           │
-│  │  RAG Chain      │  │  System Prompt   │                           │
-│  │  (LCEL)         │  │ (Clinical Query) │                           │
-│  └─────────────────┘  └──────────────────┘                           │
-└──────────────────────────────────────────────────────────────────────┘
-                                    │
-                                    ▼
-┌──────────────────────────────────────────────────────────────────────┐
-│                        STORAGE LAYER                                 │
-│                    Pinecone Vector Database                          │
-└──────────────────────────────────────────────────────────────────────┘
-                                    │
-                                    ▼
-┌──────────────────────────────────────────────────────────────────────┐
-│                        GENERATION LAYER                              │
-│                    Groq Llama 4 (via API)                            │
-└──────────────────────────────────────────────────────────────────────┘
-```
-
 # Future Improvements: ⚙
-
 - **AWS Deployment**: Moving the Flask app to an EC2 instance via docker image with an S3 bucket for document storage.
   
 - **Frontend**: I’m working on a frontend redesign that supports real-time token streaming. This will eliminate the wait time for the user, providing a much smoother, modern chat experience.
 
 
-### Planned Infrastructure KPI
-
-### Q2 2026
-
+#### **Deployment**
 - [ ] **AWS Deployment**: Containerized deployment on ECS with ALB routing
 - [ ] **CI/CD Pipeline**: GitHub Actions for automated testing and deployment
-- [ ] **Health Check Endpoint**: Add `/api/health` for monitoring
 - [ ] **Dockerfile**: Multi-stage build for production image
 
-### Q3 2026
-
+#### **Enhancement**
+- [ ] **UI**: Enhance Frontend UI
 - [ ] **Expanded Medical Datasets**:
   - PubMed Central Open Access subset
   - MIMIC-III clinical notes (de-identified)
   - DrugBank pharmacological data
-- [ ] **Multi-Model Support**: Ollama integration for local LLM fallback
-- [ ] **Caching Layer**: Redis for query result caching
+- [ ] **Health Check Endpoint**: Add `/api/health` for monitoring
 - [ ] **Ingestion Endpoint**: Add `/api/ingest` for dynamic PDF upload
 
-### Q4 2026
-
+#### **Infrastructure Upgradation**
+- [ ] **Multi-Model Support**: Ollama integration for local LLM fallback
+- [ ] **Caching Layer**: Redis for query result caching
 - [ ] **Evaluation Framework**: RAGAS metrics for retrieval/generation quality
 - [ ] **Observability**: LangSmith tracing for pipeline debugging
 - [ ] **Authorization**: JWT-based API authentication
 
----
 
 # Project Structure 📁
-
 ```
 medical-assistant-chatbot/
 ├── .env                          # Environment variables (API keys)
@@ -168,33 +132,19 @@ medical-assistant-chatbot/
 ├── uv.lock                       # Dependency lock file
 ├── README.md                     # Project documentation
 ├── store_index.py                # ETL pipeline CLI - builds Pinecone index
-│
 ├── Data/                         # Source medical PDFs
 │   └── Medical_book.pdf
-│
 ├── templates/                    # Flask templates
 │   └── chat.html                 # Chat interface
-│
 ├── static/                       # Static assets
-│   └── style.css                 # Chat styling
-│
+│   └── style.css                 # CSS styling
 ├── src/                          # Core application logic
 │   ├── __init__.py
-│   ├── helper.py                 # ETL pipeline + RAG utilities
+│   ├── helper.py                 # modular code for ETL pipeline + RAG utilities
 │   └── prompt.py                 # Clinical system prompts
-│
 └── notebooks/                    # Jupyter notebooks for experimentation
     └── trials.ipynb
 ```
 
 **MediAssist** - Clinical AI Infrastructure for Evidence-Based Medical Information Retrieval
 
-
-![LangChain](https://img.shields.io/badge/LangChain-1C3C3C?style=for-the-badge&logo=langchain&logoColor=white)
-![HuggingFace](https://img.shields.io/badge/HuggingFace-FFD21E?style=for-the-badge&logo=huggingface&logoColor=black)
-![Pinecone](https://img.shields.io/badge/Pinecone-272727?style=for-the-badge&logo=pinecone&logoColor=white)
-![Groq](https://img.shields.io/badge/Groq-f55036?style=for-the-badge&logo=groq&logoColor=white)
-![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
-![Flask](https://img.shields.io/badge/flask-%23000.svg?style=for-the-badge&logo=flask&logoColor=white)
-![AWS](https://img.shields.io/badge/AWS-%23FF9900.svg?style=for-the-badge&logo=amazon-aws&logoColor=white)
-![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
