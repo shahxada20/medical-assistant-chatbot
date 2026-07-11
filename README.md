@@ -2,13 +2,12 @@
 
 [![Python 3.12+](https://img.shields.io/badge/python-3.12+-blue.svg)](https://www.python.org/downloads/)
 [![Status](https://img.shields.io/badge/status-active-success.svg)]()
-
 ![LangChain](https://img.shields.io/badge/LangChain-1C3C3C?style=for-the-badge&logo=langchain&logoColor=white)
 ![HuggingFace](https://img.shields.io/badge/HuggingFace-FFD21E?style=for-the-badge&logo=huggingface&logoColor=black)
 ![Pinecone](https://img.shields.io/badge/Pinecone-272727?style=for-the-badge&logo=pinecone&logoColor=white)
 ![Groq](https://img.shields.io/badge/Groq-f55036?style=for-the-badge&logo=groq&logoColor=white)
-![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
 ![Flask](https://img.shields.io/badge/flask-%23000.svg?style=for-the-badge&logo=flask&logoColor=white)
+## Live Demo: [click here](https://huggingface.co/spaces/shahxad/medi-assist)
 
 <img width="1600" height="800" alt="image" src="https://github.com/user-attachments/assets/d0fe29d8-6a21-4a17-a00b-a9300a4c7abd" />
 
@@ -85,12 +84,11 @@ This will:
 ```bash
 python app.py
 ```
-Navigate to http://localhost:5000 to start chatting.
+Navigate to localhost to start chatting.
 
 
 # Future Infrastructure Upgradation: ⚙
-- **Deployment**
 - **UX Re-design**
-- **Expand Medical Context**
+- **Build Pipeline for Expanding Medical Context**
 
-**MediAssist** - Clinical AI Infrastructure for Evidence-Based Medical Information Retrieval
+**MediAssist** - Clinical AI chatbot for Evidence-Based Medical Information Retrieval
