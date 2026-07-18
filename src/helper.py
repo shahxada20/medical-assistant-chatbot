@@ -164,7 +164,7 @@ def get_existing_vector_store(embedding, index_name):
     )
 
 
-def initialize_groq_llm(model_name=qwen/qwen3.6-27b, temperature=0, api_key=None):
+def initialize_groq_llm(model_name="qwen/qwen3.6-27b", temperature=0, api_key=None):
     """ Initialize Groq LLM client for text generation."""
     groq_api_key = api_key or os.getenv("GROQ_API_KEY")
 
