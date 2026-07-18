@@ -51,7 +51,7 @@ def initialize_app():
         )
 
         logger.info("Initializing Groq LLM...")
-        llm = initialize_groq_llm(DEFAULT_LLM_MODEL)
+        llm = initialize_groq_llm()
 
         logger.info("Loading system prompt...")
         prompt = system_prompt()
