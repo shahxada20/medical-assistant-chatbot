@@ -33,7 +33,7 @@ DEFAULT_INDEX_DIMENSION = 384
 
 
 def _build_rag_pipeline(retriever, llm, prompt):
-    """Private utility: Build RAG chain from components using LCEL."""
+    """ Private utility: Build RAG chain from components using LCEL."""
     return (
         {"context": retriever, "question": RunnablePassthrough()}
         | prompt
@@ -84,7 +84,7 @@ def load_pdf(data_path=None):
 
 
 def filter_documents(docs):
-    """Filter documents to keep only page content and source metadata."""
+    """ Filter documents to keep only page content and source metadata."""
     return [
         Document(page_content=doc.page_content, metadata={"source": doc.metadata.get("source", "unknown")})
         for doc in docs
@@ -92,7 +92,7 @@ def filter_documents(docs):
 
 
 def split_doc_into_chunks(minimal_docs, chunk_size=500, chunk_overlap=50):
-    """Split documents into smaller chunks for embedding."""
+    """ Split documents into smaller chunks for embedding."""
     if not minimal_docs:
         raise ValueError("Cannot split empty document list.")
 
@@ -116,7 +116,7 @@ def load_embeddings_model(model_name=DEFAULT_EMBEDDING_MODEL):
 
 
 def initialize_pinecone_client(api_key=None):
-    """Initialize Pinecone vector database client."""
+    """ Initialize Pinecone vector database client."""
     pinecone_api_key = api_key or os.getenv("PINECONE_API_KEY")
 
     if not pinecone_api_key:
@@ -133,7 +133,7 @@ def pinecone_indexes(
     cloud="aws",
     region="us-east-1"
 ):
-    """Create Pinecone index if it doesn't exist."""
+    """ Create Pinecone index if it doesn't exist."""
     if not pc.has_index(index_name):
         pc.create_index(
             name=index_name,
@@ -145,7 +145,7 @@ def pinecone_indexes(
 
 
 def store_embeddings(documents, embedding, index_name):
-    """Embed documents and store them in Pinecone vector store."""
+    """ Embed documents and store them in Pinecone vector store."""
     if not documents:
         raise ValueError("Cannot create vector store from empty document list.")
 
@@ -157,15 +157,15 @@ def store_embeddings(documents, embedding, index_name):
 
 
 def get_existing_vector_store(embedding, index_name):
-    """Connect to existing Pinecone vector store."""
+    """ Connect to existing Pinecone vector store."""
     return PineconeVectorStore.from_existing_index(
         index_name=index_name,
         embedding=embedding
     )
 
 
-def initialize_groq_llm(model_name=DEFAULT_LLM_MODEL, temperature=0, api_key=None):
-    """Initialize Groq LLM client for text generation."""
+def initialize_groq_llm(model_name=qwen/qwen3.6-27b, temperature=0, api_key=None):
+    """ Initialize Groq LLM client for text generation."""
     groq_api_key = api_key or os.getenv("GROQ_API_KEY")
 
     if not groq_api_key:
@@ -175,13 +175,13 @@ def initialize_groq_llm(model_name=DEFAULT_LLM_MODEL, temperature=0, api_key=Non
 
 
 def system_prompt():
-    """Create medical-specific system prompt template."""
+    """ Create medical-specific system prompt template."""
     system_prompt = llm_system_prompt
     return ChatPromptTemplate.from_template(system_prompt)
 
 
 def build_rag_chain(vector_store, llm, prompt, k=3):
-    """Build RAG chain using LangChain Expression Language (LCEL)."""
+    """ Build RAG chain using LangChain Expression Language (LCEL)."""
     retriever = vector_store.as_retriever(search_kwargs={"k": k})
     return _build_rag_pipeline(retriever, llm, prompt)
 
@@ -194,7 +194,7 @@ def create_rag_chain_with_components(vector_store, llm, prompt, k=3):
 
 
 def initialize_rag_pipeline(data_path=None):
-    """Initialize complete RAG pipeline from PDF ingestion to RAG chain."""
+    """ Initialize complete RAG pipeline from PDF ingestion to RAG chain."""
     env_vars = load_env_var()
 
     data_directory = Path(data_path) if data_path else DATA_DIR
