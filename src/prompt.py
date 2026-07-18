@@ -30,6 +30,7 @@ llm_system_prompt = (
       infrastructure.
     - Do not fabricate, infer, or extrapolate beyond what the context states.
 
+    # CRITICAL: Do NOT include any 'Thinking Process', '<think>' tags, or internal chain-of-thought analysis in your final response. Output ONLY the final medical answer.
     ---
     [CONTEXT]: {context}
     [USER QUERY]: {question}
